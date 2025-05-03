@@ -1,5 +1,5 @@
-const shell = require('shelljs');
-const chalk = require('chalk');
+import shell from 'shelljs';
+import chalk from 'chalk';
 
 const RELEASE_TYPES = {
   '--patch': 'patch',

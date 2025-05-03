@@ -1,0 +1,129 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-main: #a35a32;
+  --color-dark: #4a2e1e;
+  --color-light: #eae3da;
+  --color-secondary: #d6c6b3;
+  --color-tertiary: #2b1f1a;
+  --color-quaternary: #f9f6f1;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: var(--color-quaternary);
+  --foreground: var(--color-tertiary);
+  --card: var(--color-quaternary);
+  --card-foreground: var(--color-tertiary);
+  --popover: var(--color-quaternary);
+  --popover-foreground: var(--color-tertiary);
+  --primary: var(--color-main);
+  --primary-foreground: var(--color-light);
+  --secondary: var(--color-secondary);
+  --secondary-foreground: var(--color-dark);
+  --muted: var(--color-secondary);
+  --muted-foreground: var(--color-dark);
+  --accent: var(--color-secondary);
+  --accent-foreground: var(--color-dark);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: var(--color-secondary);
+  --input: var(--color-secondary);
+  --ring: var(--color-main);
+  --chart-1: var(--color-main);
+  --chart-2: var(--color-dark);
+  --chart-3: var(--color-tertiary);
+  --chart-4: var(--color-secondary);
+  --chart-5: var(--color-light);
+  --sidebar: var(--color-quaternary);
+  --sidebar-foreground: var(--color-tertiary);
+  --sidebar-primary: var(--color-main);
+  --sidebar-primary-foreground: var(--color-light);
+  --sidebar-accent: var(--color-secondary);
+  --sidebar-accent-foreground: var(--color-dark);
+  --sidebar-border: var(--color-secondary);
+  --sidebar-ring: var(--color-main);
+}
+
+.dark {
+  --background: var(--color-tertiary);
+  --foreground: var(--color-light);
+  --card: var(--color-dark);
+  --card-foreground: var(--color-light);
+  --popover: var(--color-dark);
+  --popover-foreground: var(--color-light);
+  --primary: var(--color-main);
+  --primary-foreground: var(--color-light);
+  --secondary: var(--color-dark);
+  --secondary-foreground: var(--color-light);
+  --muted: var(--color-dark);
+  --muted-foreground: var(--color-secondary);
+  --accent: var(--color-dark);
+  --accent-foreground: var(--color-light);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: var(--color-main);
+  --input: var(--color-main);
+  --ring: var(--color-main);
+  --chart-1: var(--color-main);
+  --chart-2: var(--color-dark);
+  --chart-3: var(--color-light);
+  --chart-4: var(--color-secondary);
+  --chart-5: var(--color-tertiary);
+  --sidebar: var(--color-dark);
+  --sidebar-foreground: var(--color-light);
+  --sidebar-primary: var(--color-main);
+  --sidebar-primary-foreground: var(--color-light);
+  --sidebar-accent: var(--color-dark);
+  --sidebar-accent-foreground: var(--color-light);
+  --sidebar-border: var(--color-main);
+  --sidebar-ring: var(--color-main);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

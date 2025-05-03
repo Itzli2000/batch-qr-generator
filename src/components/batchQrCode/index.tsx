@@ -6,6 +6,7 @@ import React, { useRef, useState } from "react";
 import QRCodeStyling from "qr-code-styling";
 import type { DownloadFormat } from "../qrCode/types";
 import type { Options } from "qr-code-styling";
+import JSZip from "jszip";
 import {
   Table,
   TableBody,
@@ -15,6 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Progress } from "@/components/ui/progress";
 
 interface CSVRow {
   data: string;
@@ -30,6 +32,7 @@ const BatchQRCode: React.FC<BatchQRCodeProps> = ({ config, format }) => {
   const [csvData, setCsvData] = useState<CSVRow[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [progress, setProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleCSVUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,40 +95,50 @@ const BatchQRCode: React.FC<BatchQRCodeProps> = ({ config, format }) => {
     reader.readAsText(file);
   };
 
-  const generateAndDownloadQR = async (row: CSVRow) => {
+  const generateQRBlob = async (row: CSVRow): Promise<Blob | null> => {
     const qrCode = new QRCodeStyling({
       ...config,
       data: row.data,
     });
 
     const blob = await qrCode.getRawData(format);
-    if (!blob) return;
+    if (!blob) return null;
 
-    // Convert Buffer to Blob if needed
-    const downloadBlob = blob instanceof Blob ? blob : new Blob([blob]);
-    const url = URL.createObjectURL(downloadBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${row.filename}.${format}`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    return blob instanceof Blob ? blob : new Blob([blob]);
   };
 
   const handleBatchDownload = async () => {
     if (csvData.length === 0) return;
     
     setIsProcessing(true);
+    setProgress(0);
     try {
-      for (const row of csvData) {
-        await generateAndDownloadQR(row);
+      const zip = new JSZip();
+      
+      for (let i = 0; i < csvData.length; i++) {
+        const row = csvData[i];
+        const blob = await generateQRBlob(row);
+        if (blob) {
+          zip.file(`${row.filename}.${format}`, blob);
+        }
+        setProgress(((i + 1) / csvData.length) * 100);
       }
+
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(zipBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'qr-codes.zip';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error generating QR codes:', error);
-      alert('Error generating QR codes. Please try again.');
+      setError('Error generating QR codes. Please try again.');
     } finally {
       setIsProcessing(false);
+      setProgress(0);
     }
   };
 
@@ -183,13 +196,21 @@ const BatchQRCode: React.FC<BatchQRCodeProps> = ({ config, format }) => {
             <p className="text-sm text-gray-700">
               Found {csvData.length} entries to process
             </p>
+            {isProcessing && (
+              <div className="space-y-2">
+                <Progress value={progress} className="w-full" />
+                <p className="text-sm text-gray-500 text-center">
+                  Processing... {Math.round(progress)}%
+                </p>
+              </div>
+            )}
             <Button
               onClick={handleBatchDownload}
               disabled={isProcessing}
               className="w-full"
             >
               <Download className="size-4 mr-2" />
-              {isProcessing ? 'Processing...' : 'Generate All QR Codes'}
+              {isProcessing ? 'Processing...' : 'Download ZIP'}
             </Button>
           </div>
         </div>

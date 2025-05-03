@@ -83,7 +83,7 @@ This is a private project. All rights reserved. Unauthorized copying, modificati
 
 ## 👥 Authors
 
-- Your Name - Initial work - [YourGitHub](https://github.com/yourusername)
+- Itzli Molina - Initial work - [YourGitHub](https://github.com/yourusername)
 
 ## 🙏 Acknowledgments
 
@@ -92,4 +92,4 @@ This is a private project. All rights reserved. Unauthorized copying, modificati
 
 ---
 
-Made with ❤️ by [Your Name]
+Made with ❤️ by [Itzli Molina](https://github.com/Itzli2000)

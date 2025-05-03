@@ -2,11 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { DotType } from "qr-code-styling";
@@ -25,12 +25,12 @@ const QRCodeGenerator: React.FC = () => {
   } = useQrCode();
 
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <div className="flex flex-col gap-2">
-        <h2 className="text-xl font-bold">QR Code Generator</h2>
-        <div className="flex flex-col gap-4">
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="data">Data</Label>
+    <div className="flex flex-col lg:flex-row gap-8 p-4 max-w-7xl mx-auto justify-center items-center">
+      <div className="flex flex-col gap-4 flex-1 bg-white/50 backdrop-blur-sm rounded-lg p-6 shadow-sm">
+        <h2 className="text-2xl font-bold text-gray-800">QR Code Generator</h2>
+        <div className="flex flex-col gap-6">
+          <div className="grid w-full max-w-sm items-center gap-2">
+            <Label htmlFor="data" className="text-sm font-medium text-gray-700">Data</Label>
             <Input
               id="data"
               type="text"
@@ -39,8 +39,8 @@ const QRCodeGenerator: React.FC = () => {
             />
           </div>
 
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="width">Width</Label>
+          <div className="grid w-full max-w-sm items-center gap-2">
+            <Label htmlFor="width" className="text-sm font-medium text-gray-700">Width</Label>
             <Input
               id="width"
               type="number"
@@ -49,8 +49,8 @@ const QRCodeGenerator: React.FC = () => {
             />
           </div>
 
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="height">Height</Label>
+          <div className="grid w-full max-w-sm items-center gap-2">
+            <Label htmlFor="height" className="text-sm font-medium text-gray-700">Height</Label>
             <Input
               id="height"
               type="number"
@@ -59,8 +59,8 @@ const QRCodeGenerator: React.FC = () => {
             />
           </div>
 
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="logo">Logo/Image</Label>
+          <div className="grid w-full max-w-sm items-center gap-2">
+            <Label htmlFor="logo" className="text-sm font-medium text-gray-700">Logo/Image</Label>
             <div className="flex items-center gap-2">
               <Input
                 ref={fileInputRef}
@@ -83,8 +83,8 @@ const QRCodeGenerator: React.FC = () => {
           </div>
 
           {config.image && (
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="logoSize">Logo Size (%)</Label>
+            <div className="grid w-full max-w-sm items-center gap-2">
+              <Label htmlFor="logoSize" className="text-sm font-medium text-gray-700">Logo Size (%)</Label>
               <Slider
                 id="logoSize"
                 min={10}
@@ -105,8 +105,8 @@ const QRCodeGenerator: React.FC = () => {
             </div>
           )}
 
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="dotColor">Dot Color</Label>
+          <div className="grid w-full max-w-sm items-center gap-2">
+            <Label htmlFor="dotColor" className="text-sm font-medium text-gray-700">Dot Color</Label>
             <Input
               id="dotColor"
               type="color"
@@ -115,8 +115,8 @@ const QRCodeGenerator: React.FC = () => {
             />
           </div>
 
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="bgColor">Background Color</Label>
+          <div className="grid w-full max-w-sm items-center gap-2">
+            <Label htmlFor="bgColor" className="text-sm font-medium text-gray-700">Background Color</Label>
             <Input
               id="bgColor"
               type="color"
@@ -127,8 +127,8 @@ const QRCodeGenerator: React.FC = () => {
             />
           </div>
 
-          <div className="grid w-full max-w-sm items-center gap-1.5">
-            <Label htmlFor="dotStyle">Dot Style</Label>
+          <div className="grid w-full max-w-sm items-center gap-2">
+            <Label htmlFor="dotStyle" className="text-sm font-medium text-gray-700">Dot Style</Label>
             <Select
               value={config.dotsOptions?.type}
               onValueChange={(value: DotType) => {
@@ -155,7 +155,12 @@ const QRCodeGenerator: React.FC = () => {
         </div>
       </div>
 
-      <div ref={ref} className="mt-4 flex justify-center"></div>
+      <div className="flex-1 flex items-start justify-center lg:sticky lg:top-4 min-h-[500px]">
+        <div className="bg-white/50 backdrop-blur-sm rounded-lg p-6 shadow-sm w-full max-w-xl">
+          <h3 className="text-lg font-medium text-gray-700 mb-4">Preview</h3>
+          <div ref={ref} className="flex justify-center items-center"></div>
+        </div>
+      </div>
     </div>
   );
 };

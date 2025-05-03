@@ -5,7 +5,6 @@ import { QRCodeConfig, UseQrCodeReturn } from "../types";
 
 const useQrCode = (): UseQrCodeReturn => {
   const [qrCode, setQrCode] = useState<QRCodeStyling | null>(null);
-
   const [config, setConfig] = useState<QRCodeConfig>(INITIAL_CONFIG);
 
   const ref = useRef<HTMLDivElement | null>(null);
@@ -63,11 +62,10 @@ const useQrCode = (): UseQrCodeReturn => {
   };
 
   const handleRemoveImage = () => {
-    setConfig((prevConfig) => {
-      const newConfig = { ...prevConfig };
-      delete newConfig.image;
-      return newConfig;
-    });
+    setConfig((prevConfig) => ({
+      ...prevConfig,
+      image: undefined,
+    }));
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }

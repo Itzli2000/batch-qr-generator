@@ -7,6 +7,21 @@ const RELEASE_TYPES = {
   '--major': 'major',
 };
 
+function getNewVersion(currentVersion, releaseType) {
+  const [major, minor, patch] = currentVersion.split('.').map(Number);
+  
+  switch (releaseType) {
+    case 'major':
+      return `${major + 1}.0.0`;
+    case 'minor':
+      return `${major}.${minor + 1}.0`;
+    case 'patch':
+      return `${major}.${minor}.${patch + 1}`;
+    default:
+      throw new Error('Invalid release type');
+  }
+}
+
 async function checkGitStatus() {
   const { stdout } = shell.exec('git status --porcelain', { silent: true });
   if (stdout) {
@@ -67,7 +82,10 @@ async function main() {
 
     // Bump version
     shell.echo(chalk.blue('\n⬆️ Bumping package version...'));
-    if (shell.exec(`yarn version ${releaseType} --no-git-tag-version && git add package.json`).code !== 0) {
+    const { stdout: currentVersion } = shell.exec('node -p "require(\'./package.json\').version"', { silent: true });
+    const newVersion = getNewVersion(currentVersion.trim(), RELEASE_TYPES[releaseType]);
+    
+    if (shell.exec(`yarn version --new-version ${newVersion} --no-git-tag-version && git add package.json`).code !== 0) {
       shell.echo(chalk.red('🚨 Error: Failed to bump version'));
       shell.exit(1);
     }

@@ -1,19 +1,23 @@
 import QRCodeGenerator from "./components/qrCode";
-import { Button } from "./components/ui/button";
-import { Input } from "./components/ui/input";
-import { Label } from "./components/ui/label";
+import CSVProcessor from "./components/CSVProcessor";
 
 function App() {
   return (
-    <>
-      <h1>Batch QR Generator</h1>
-      <QRCodeGenerator />  
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="csv-file">CSV File</Label>
-        <Input id="csv-file" type="file" accept=".csv" />
+    <div className="container mx-auto p-4 space-y-8">
+      <h1 className="text-2xl font-bold mb-4">QR Code Generator</h1>
+      
+      <div className="space-y-8">
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Single QR Code</h2>
+          <QRCodeGenerator />
+        </div>
+
+        <div>
+          <h2 className="text-xl font-semibold mb-4">Bulk QR Code Generation</h2>
+          <CSVProcessor />
+        </div>
       </div>
-      <Button>Generate QR</Button>
-    </>
+    </div>
   );
 }
 

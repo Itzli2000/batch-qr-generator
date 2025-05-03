@@ -10,6 +10,8 @@
   --color-secondary: #d6c6b3;
   --color-tertiary: #2b1f1a;
   --color-quaternary: #f9f6f1;
+  --color-white: #ffffff;
+  --color-black: #000000;
 }
 
 @theme inline {
@@ -58,31 +60,31 @@
   --card-foreground: var(--color-tertiary);
   --popover: var(--color-quaternary);
   --popover-foreground: var(--color-tertiary);
-  --primary: var(--color-main);
+  --primary: var(--color-dark);
   --primary-foreground: var(--color-light);
-  --secondary: var(--color-secondary);
+  --secondary: var(--color-main);
   --secondary-foreground: var(--color-dark);
   --muted: var(--color-secondary);
-  --muted-foreground: var(--color-dark);
+  --muted-foreground: color-mix(in oklch, var(--color-dark) 60%, var(--color-light));
   --accent: var(--color-secondary);
   --accent-foreground: var(--color-dark);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: var(--color-secondary);
-  --input: var(--color-secondary);
-  --ring: var(--color-main);
+  --destructive: var(--color-main);
+  --border: color-mix(in oklch, var(--color-tertiary) 10%, var(--color-light));
+  --input: color-mix(in oklch, var(--color-tertiary) 10%, var(--color-light));
+  --ring: color-mix(in oklch, var(--color-main) 50%, var(--color-light));
   --chart-1: var(--color-main);
-  --chart-2: var(--color-dark);
-  --chart-3: var(--color-tertiary);
-  --chart-4: var(--color-secondary);
-  --chart-5: var(--color-light);
-  --sidebar: var(--color-quaternary);
+  --chart-2: color-mix(in oklch, var(--color-main) 80%, var(--color-light));
+  --chart-3: color-mix(in oklch, var(--color-main) 60%, var(--color-light));
+  --chart-4: color-mix(in oklch, var(--color-main) 40%, var(--color-light));
+  --chart-5: color-mix(in oklch, var(--color-main) 20%, var(--color-light));
+  --sidebar: var(--color-light);
   --sidebar-foreground: var(--color-tertiary);
-  --sidebar-primary: var(--color-main);
+  --sidebar-primary: var(--color-dark);
   --sidebar-primary-foreground: var(--color-light);
   --sidebar-accent: var(--color-secondary);
   --sidebar-accent-foreground: var(--color-dark);
-  --sidebar-border: var(--color-secondary);
-  --sidebar-ring: var(--color-main);
+  --sidebar-border: color-mix(in oklch, var(--color-tertiary) 10%, var(--color-light));
+  --sidebar-ring: color-mix(in oklch, var(--color-main) 50%, var(--color-light));
 }
 
 .dark {
@@ -92,31 +94,31 @@
   --card-foreground: var(--color-light);
   --popover: var(--color-dark);
   --popover-foreground: var(--color-light);
-  --primary: var(--color-main);
-  --primary-foreground: var(--color-light);
-  --secondary: var(--color-dark);
+  --primary: var(--color-light);
+  --primary-foreground: var(--color-dark);
+  --secondary: color-mix(in oklch, var(--color-tertiary) 80%, var(--color-dark));
   --secondary-foreground: var(--color-light);
-  --muted: var(--color-dark);
-  --muted-foreground: var(--color-secondary);
-  --accent: var(--color-dark);
+  --muted: color-mix(in oklch, var(--color-tertiary) 80%, var(--color-dark));
+  --muted-foreground: color-mix(in oklch, var(--color-light) 70%, var(--color-secondary));
+  --accent: color-mix(in oklch, var(--color-tertiary) 80%, var(--color-dark));
   --accent-foreground: var(--color-light);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: var(--color-main);
-  --input: var(--color-main);
-  --ring: var(--color-main);
-  --chart-1: var(--color-main);
-  --chart-2: var(--color-dark);
-  --chart-3: var(--color-light);
-  --chart-4: var(--color-secondary);
-  --chart-5: var(--color-tertiary);
+  --destructive: color-mix(in oklch, var(--color-main) 70%, var(--color-light));
+  --border: color-mix(in oklch, var(--color-light) 10%, transparent);
+  --input: color-mix(in oklch, var(--color-light) 15%, transparent);
+  --ring: color-mix(in oklch, var(--color-light) 50%, var(--color-main));
+  --chart-1: color-mix(in oklch, var(--color-main) 50%, var(--color-light));
+  --chart-2: color-mix(in oklch, var(--color-main) 70%, var(--color-light));
+  --chart-3: color-mix(in oklch, var(--color-main) 20%, var(--color-light));
+  --chart-4: color-mix(in oklch, var(--color-main) 60%, var(--color-secondary));
+  --chart-5: color-mix(in oklch, var(--color-main) 80%, var(--color-light));
   --sidebar: var(--color-dark);
   --sidebar-foreground: var(--color-light);
-  --sidebar-primary: var(--color-main);
+  --sidebar-primary: color-mix(in oklch, var(--color-main) 50%, var(--color-light));
   --sidebar-primary-foreground: var(--color-light);
-  --sidebar-accent: var(--color-dark);
+  --sidebar-accent: color-mix(in oklch, var(--color-tertiary) 80%, var(--color-dark));
   --sidebar-accent-foreground: var(--color-light);
-  --sidebar-border: var(--color-main);
-  --sidebar-ring: var(--color-main);
+  --sidebar-border: color-mix(in oklch, var(--color-light) 10%, transparent);
+  --sidebar-ring: color-mix(in oklch, var(--color-light) 50%, var(--color-main));
 }
 
 @layer base {

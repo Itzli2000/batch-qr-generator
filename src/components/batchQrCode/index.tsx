@@ -6,6 +6,15 @@ import React, { useRef, useState } from "react";
 import QRCodeStyling from "qr-code-styling";
 import type { DownloadFormat } from "../qrCode/types";
 import type { Options } from "qr-code-styling";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface CSVRow {
   data: string;
@@ -20,35 +29,65 @@ interface BatchQRCodeProps {
 const BatchQRCode: React.FC<BatchQRCodeProps> = ({ config, format }) => {
   const [csvData, setCsvData] = useState<CSVRow[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleCSVUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
+    // Clear all states when a new file is uploaded
+    setCsvData([]);
+    setError(null);
+    setIsProcessing(false);
+
     const reader = new FileReader();
     reader.onload = (e) => {
       const text = e.target?.result as string;
       const rows = text.split('\n');
+      
+      if (rows.length < 2) {
+        setError('CSV file must contain at least a header row and one data row');
+        return;
+      }
+
       const headers = rows[0].split(',').map(header => header.trim());
       
       const dataIndex = headers.findIndex(h => h.toLowerCase() === 'data');
       const filenameIndex = headers.findIndex(h => h.toLowerCase() === 'filename');
 
       if (dataIndex === -1 || filenameIndex === -1) {
-        alert('CSV must contain "data" and "filename" columns');
+        setError('CSV must contain "data" and "filename" columns');
         return;
       }
 
-      const parsedData = rows.slice(1).map(row => {
+      const parsedData = rows.slice(1).map((row, index) => {
         const values = row.split(',').map(value => value.trim());
+        if (values.length !== headers.length) {
+          setError(`Row ${index + 2} has incorrect number of columns`);
+          return null;
+        }
         return {
           data: values[dataIndex],
           filename: values[filenameIndex]
         };
-      }).filter(row => row.data && row.filename);
+      }).filter((row): row is CSVRow => 
+        row !== null && 
+        typeof row.data === 'string' && 
+        typeof row.filename === 'string' && 
+        row.data.length > 0 && 
+        row.filename.length > 0
+      );
+
+      if (parsedData.length === 0) {
+        setError('No valid data found in the CSV file');
+        return;
+      }
 
       setCsvData(parsedData);
+    };
+    reader.onerror = () => {
+      setError('Error reading the CSV file');
     };
     reader.readAsText(file);
   };
@@ -113,19 +152,46 @@ const BatchQRCode: React.FC<BatchQRCodeProps> = ({ config, format }) => {
         </p>
       </div>
 
+      {error && (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
       {csvData.length > 0 && (
-        <div className="flex flex-col gap-2">
-          <p className="text-sm text-gray-700">
-            Found {csvData.length} entries to process
-          </p>
-          <Button
-            onClick={handleBatchDownload}
-            disabled={isProcessing}
-            className="w-full"
-          >
-            <Download className="size-4 mr-2" />
-            {isProcessing ? 'Processing...' : 'Generate All QR Codes'}
-          </Button>
+        <div className="flex flex-col gap-4">
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Data</TableHead>
+                  <TableHead>Filename</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {csvData.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="font-mono">{row.data}</TableCell>
+                    <TableCell>{row.filename}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+          
+          <div className="flex flex-col gap-2">
+            <p className="text-sm text-gray-700">
+              Found {csvData.length} entries to process
+            </p>
+            <Button
+              onClick={handleBatchDownload}
+              disabled={isProcessing}
+              className="w-full"
+            >
+              <Download className="size-4 mr-2" />
+              {isProcessing ? 'Processing...' : 'Generate All QR Codes'}
+            </Button>
+          </div>
         </div>
       )}
     </div>

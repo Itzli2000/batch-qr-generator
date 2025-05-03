@@ -67,17 +67,37 @@ async function main() {
 
     // Bump version
     shell.echo(chalk.blue('\n⬆️ Bumping package version...'));
-    if (shell.exec(`yarn version ${releaseType} --no-git-tag-version && git add package.json`).code !== 0) {
+    if (shell.exec(`yarn version ${RELEASE_TYPES[releaseType]} && git add package.json`).code !== 0) {
       shell.echo(chalk.red('🚨 Error: Failed to bump version'));
+      shell.exit(1);
+    }
+
+    // Stage all changes
+    shell.echo(chalk.blue('\n📦 Staging all changes...'));
+    if (shell.exec('git add .').code !== 0) {
+      shell.echo(chalk.red('🚨 Error: Failed to stage changes'));
+      shell.exit(1);
+    }
+
+    // Commit changes
+    shell.echo(chalk.blue('\n📝 Committing changes...'));
+    const commitMessage = `chore: prepare ${RELEASE_TYPES[releaseType]} release for ${issueId}`;
+    if (shell.exec(`git commit -m "${commitMessage}"`).code !== 0) {
+      shell.echo(chalk.red('🚨 Error: Failed to commit changes'));
+      shell.exit(1);
+    }
+
+    // Push branch
+    shell.echo(chalk.blue('\n⬆️ Pushing branch...'));
+    if (shell.exec(`git push -u origin ${branchName}`).code !== 0) {
+      shell.echo(chalk.red('🚨 Error: Failed to push branch'));
       shell.exit(1);
     }
 
     shell.echo(chalk.green('\n✅ Release preparation completed successfully!'));
     shell.echo(chalk.yellow('\nNext steps:'));
-    shell.echo(chalk.gray('1. Review the changes'));
-    shell.echo(chalk.gray('2. Commit the changes'));
-    shell.echo(chalk.gray('3. Push the branch'));
-    shell.echo(chalk.gray('4. Create a pull request'));
+    shell.echo(chalk.gray('1. Review the changes in the pushed branch'));
+    shell.echo(chalk.gray('2. Create a pull request'));
 
   } catch (error) {
     shell.echo(chalk.red(`\n🚨 Unexpected error: ${error.message}`));

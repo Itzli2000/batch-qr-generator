@@ -1,3 +1,9 @@
+#### 1.0.1 (2025-05-03)
+
+##### Other Changes
+
+* Itzli2000/batch-qr-generator into develop (bb0b769b)
+
 ## 1.0.0 (2025-05-03)
 
 ##### New Features

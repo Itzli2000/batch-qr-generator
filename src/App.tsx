@@ -1,5 +1,4 @@
 import QRCodeGenerator from "./components/qrCode";
-import CSVProcessor from "./components/CSVProcessor";
 
 function App() {
   return (
@@ -10,11 +9,6 @@ function App() {
         <div>
           <h2 className="text-xl font-semibold mb-4">Single QR Code</h2>
           <QRCodeGenerator />
-        </div>
-
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Bulk QR Code Generation</h2>
-          <CSVProcessor />
         </div>
       </div>
     </div>

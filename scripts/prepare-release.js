@@ -67,7 +67,7 @@ async function main() {
 
     // Bump version
     shell.echo(chalk.blue('\n⬆️ Bumping package version...'));
-    if (shell.exec(`yarn version ${releaseType} --no-git-tag-version && git add package.json`).code !== 0) {
+    if (shell.exec(`yarn version ${RELEASE_TYPES[releaseType]} && git add package.json`).code !== 0) {
       shell.echo(chalk.red('🚨 Error: Failed to bump version'));
       shell.exit(1);
     }

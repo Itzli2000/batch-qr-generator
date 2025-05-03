@@ -1,4 +1,5 @@
 import { QRCodeConfig } from ".";
+import QRCodeStyling from "qr-code-styling";
 
 /** Interface defining the return value of the useQrCode hook */
 export interface UseQrCodeReturn {
@@ -8,6 +9,8 @@ export interface UseQrCodeReturn {
   ref: React.RefObject<HTMLDivElement | null>;
   /** Current QR code configuration state */
   config: QRCodeConfig;
+  /** The QR code instance */
+  qrCode: QRCodeStyling | null;
   /** Handler for updating QR code config values when form inputs change
    * @param e - Change event from input or select element
    * @param field - Top level config field to update

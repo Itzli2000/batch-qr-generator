@@ -9,20 +9,26 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import { Download } from "lucide-react";
 import { DotType } from "qr-code-styling";
 import React from "react";
+import useDownload from "./hooks/useDownload";
 import useQrCode from "./hooks/useQrCode";
+import type { DownloadFormat } from "./types";
 
 const QRCodeGenerator: React.FC = () => {
   const {
     ref,
     fileInputRef,
     config,
+    qrCode,
     handleConfigChange,
     handleImageUpload,
     handleRemoveImage,
     setConfig,
   } = useQrCode();
+
+  const { handleDownload, format, setFormat } = useDownload({ config, qrCode });
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 p-4 max-w-7xl mx-auto justify-center items-center">
@@ -157,7 +163,28 @@ const QRCodeGenerator: React.FC = () => {
 
       <div className="flex-1 flex items-start justify-center lg:sticky lg:top-4 min-h-[500px]">
         <div className="bg-white/50 backdrop-blur-sm rounded-lg p-6 shadow-sm w-full max-w-xl">
-          <h3 className="text-lg font-medium text-gray-700 mb-4">Preview</h3>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-medium text-gray-700">Preview</h3>
+            <div className="flex items-center gap-2">
+              <Select
+                value={format}
+                onValueChange={(value: DownloadFormat) => setFormat(value)}
+              >
+                <SelectTrigger className="w-[120px]">
+                  <SelectValue placeholder="Select format" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="svg">SVG</SelectItem>
+                  <SelectItem value="png">PNG</SelectItem>
+                  <SelectItem value="jpeg">JPEG</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button onClick={handleDownload} size="sm">
+                <Download className="size-4" />
+                Download
+              </Button>
+            </div>
+          </div>
           <div ref={ref} className="flex justify-center items-center"></div>
         </div>
       </div>

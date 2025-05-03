@@ -75,6 +75,7 @@ const useQrCode = (): UseQrCodeReturn => {
     fileInputRef,
     ref,
     config,
+    qrCode,
     handleConfigChange,
     handleImageUpload,
     handleRemoveImage,
